@@ -1,0 +1,1 @@
+# sentinel-entra-identity-detection-response

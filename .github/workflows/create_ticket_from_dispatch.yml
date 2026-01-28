@@ -1,0 +1,66 @@
+name: Create SOC ticket from repository_dispatch
+
+on:
+  repository_dispatch:
+    types: [sentinel_ticket]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub Issue ticket
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // repository_dispatch payload is available under github.event / context.payload
+            // client_payload is context.payload.client_payload (may be undefined)
+            const p = context.payload.client_payload ?? {};
+
+            const severity = (p.severity ?? "Medium").toString();
+            const incidentTitle = (p.incidentTitle ?? "Sentinel incident").toString();
+            const when = (p.time ?? p.timeGenerated ?? new Date().toISOString()).toString();
+
+            const asArray = (v) => Array.isArray(v) ? v : (v ? [v] : []);
+            const accounts = asArray(p.accounts).map(String);
+            const ips = asArray(p.ips).map(String);
+            const detections = asArray(p.detections).map(String);
+
+            const lines = [];
+            lines.push("## Incident Summary");
+            lines.push(`**Severity:** ${severity}`);
+            lines.push(`**Time:** ${when}`);
+            lines.push("");
+            lines.push("## Entities");
+            lines.push(`- **Accounts:** ${accounts.length ? accounts.join(", ") : "N/A"}`);
+            lines.push(`- **IPs:** ${ips.length ? ips.join(", ") : "N/A"}`);
+            lines.push("");
+            lines.push("## Signals / Detections");
+            lines.push(detections.length ? detections.map(d => `- ${d}`).join("\n") : "N/A");
+            lines.push("");
+            lines.push("## Enrichment Highlights");
+            lines.push(p.enrichment ? String(p.enrichment) : "N/A");
+            lines.push("");
+            lines.push("## Analyst Next Steps (Human Decision)");
+            lines.push("- Review Identity Investigations workbook pivots (User timeline + Audit timeline)");
+            lines.push("- Confirm change-control context (roles/consent/creds/MFA)");
+            lines.push("- If approved: run PB-02 Manual Containment");
+            lines.push("");
+            lines.push("## References");
+            lines.push("- Workbook: /workbooks/identity-investigations/");
+            lines.push("- Detections: /detections-kql/");
+            lines.push("- Runbook: /docs/runbook.md");
+
+            const body = lines.join("\n");
+
+            const { data: issue } = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[SOC] ${severity} — ${incidentTitle}`,
+              body
+            });
+
+            core.notice(`Created issue #${issue.number}: ${issue.html_url}`);

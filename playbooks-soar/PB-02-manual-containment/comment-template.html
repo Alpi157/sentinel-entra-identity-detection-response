@@ -1,0 +1,26 @@
+<h2>PB-02 Manual Containment Checklist</h2>
+
+<p><b>Target account(s):</b> {{accounts}}<br/>
+<b>Suspicious IP(s):</b> {{ips}}</p>
+
+<p><b>Evidence to verify before containment:</b></p>
+<ul>
+  <li>Confirm suspicious sign-in pattern (DET-01/DET-03) in workbook</li>
+  <li>Check AuditLogs for role/consent/credential/MFA changes (DET-04..07)</li>
+  <li>Confirm no approved change ticket matches this activity</li>
+</ul>
+
+<p><b>Approval</b><br/>
+Approver: {{approver}}<br/>
+Time: {{approvalTime}}<br/>
+Reason: {{approvalReason}}</p>
+
+<p><b>Containment options (manual-only):</b></p>
+<ul>
+  <li>Disable user sign-in / revoke sessions</li>
+  <li>Remove privileged role assignment</li>
+  <li>Revoke OAuth consent / disable app/service principal</li>
+  <li>Force MFA re-registration</li>
+</ul>
+
+<p><i>No containment is executed unless explicitly approved.</i></p>

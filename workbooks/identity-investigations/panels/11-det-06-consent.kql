@@ -1,0 +1,9 @@
+AuditLogs
+| where TimeGenerated {TimeRange}
+| where Result =~ "success"
+| where OperationName has_any ("Consent", "permission grant", "OAuth2", "consent")
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetName = tostring(TargetResources.displayName)
+| project TimeGenerated, OperationName, InitiatedBy, TargetType, TargetName, CorrelationId, TargetResources
+| order by TimeGenerated desc

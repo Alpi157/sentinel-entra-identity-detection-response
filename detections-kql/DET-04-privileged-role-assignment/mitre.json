@@ -1,0 +1,16 @@
+{
+  "techniques": [
+    {
+      "id": "T1098",
+      "name": "Account Manipulation",
+      "subtechniques": [],
+      "tactics": ["Persistence", "Privilege Escalation"]
+    },
+    {
+      "id": "T1078",
+      "name": "Valid Accounts",
+      "subtechniques": [],
+      "tactics": ["Defense Evasion", "Persistence", "Privilege Escalation", "Initial Access"]
+    }
+  ]
+}

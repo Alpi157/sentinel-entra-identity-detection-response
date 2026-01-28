@@ -1,0 +1,7 @@
+let u = tostring('{UserUPN}');
+SigninLogs
+| where TimeGenerated {TimeRange}
+| where isempty(u) or UserPrincipalName == u
+| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, Location, ClientAppUsed, Status
+| order by TimeGenerated desc
+| take 200

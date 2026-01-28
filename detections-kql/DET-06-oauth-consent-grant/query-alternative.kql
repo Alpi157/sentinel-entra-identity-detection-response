@@ -1,0 +1,33 @@
+// DET-06 (Alternative): Match common consent/grant operation names more explicitly
+// Data source: AuditLogs
+
+let lookback = 30d;
+
+let consentOps = dynamic([
+  "Consent to application",
+  "Grant consent to application",
+  "Add delegated permission grant",
+  "Add app role assignment",
+  "Add OAuth2PermissionGrant",
+  "Add service principal",
+  "Update application"
+]);
+
+AuditLogs
+| where TimeGenerated >= ago(lookback)
+| where Result =~ "success"
+| where OperationName in~ (consentOps) or OperationName has_any ("permission grant", "OAuth2", "consent")
+| extend InitiatorUPN = tostring(InitiatedBy.user.userPrincipalName)
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetName = tostring(TargetResources.displayName)
+| project
+    TimeGenerated,
+    OperationName,
+    Result,
+    InitiatorUPN,
+    TargetType,
+    TargetName,
+    CorrelationId,
+    TargetResources
+| order by TimeGenerated desc

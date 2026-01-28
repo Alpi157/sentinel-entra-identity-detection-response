@@ -1,0 +1,10 @@
+AuditLogs
+| where TimeGenerated {TimeRange}
+| where Result =~ "success"
+| where OperationName has_any ("credentials","password","secret","certificate","key")
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetName = tostring(TargetResources.displayName)
+| where TargetType in~ ("Application","ServicePrincipal") or tostring(TargetResources.modifiedProperties) has_any ("secret","password","key","certificate","credential")
+| project TimeGenerated, OperationName, InitiatedBy, TargetType, TargetName, CorrelationId, TargetResources
+| order by TimeGenerated desc

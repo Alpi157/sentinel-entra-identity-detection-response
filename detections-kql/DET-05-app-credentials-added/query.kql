@@ -1,0 +1,43 @@
+// DET-05: Application/Service Principal credentials added (client secret/cert)
+// Data source: AuditLogs
+// Goal: Detect events where a credential is added to an App or Service Principal.
+// Tunables: lookback, includeFailed
+
+let lookback = 14d;
+let includeFailed = false;
+
+// Operation names can vary by tenant and portal/API path, so we match with "has" patterns as well.
+let credOps = dynamic([
+  "Add service principal credentials",
+  "Add application credentials",
+  "Add password",
+  "Add key",
+  "Update application",
+  "Update service principal"
+]);
+
+AuditLogs
+| where TimeGenerated >= ago(lookback)
+| where (includeFailed == true) or (Result =~ "success")
+| where OperationName in~ (credOps)
+   or OperationName has_any ("credentials", "password", "secret", "certificate", "key")
+| extend InitiatorUPN = tostring(InitiatedBy.user.userPrincipalName)
+| extend InitiatorApp = tostring(InitiatedBy.app.displayName)
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetName = tostring(TargetResources.displayName)
+| extend ModifiedProps = tostring(TargetResources.modifiedProperties)
+// Best-effort signal: look for modifiedProperties containing key/secret/cert style changes
+| extend LooksLikeCredChange = ModifiedProps has_any ("password", "secret", "key", "certificate", "credential")
+| where TargetType in~ ("Application", "ServicePrincipal") or LooksLikeCredChange == true
+| project
+    TimeGenerated,
+    OperationName,
+    Result,
+    InitiatorUPN,
+    InitiatorApp,
+    TargetType,
+    TargetName,
+    CorrelationId,
+    TargetResources
+| order by TimeGenerated desc

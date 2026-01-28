@@ -1,0 +1,16 @@
+{
+  "incident_id": "INC-0006",
+  "title": "OAuth consent granted to application",
+  "severity": "Medium",
+  "time_start": "2026-01-23T11:10:00Z",
+  "time_end": "2026-01-23T11:10:00Z",
+  "detections": [
+    "DET-06"
+  ],
+  "entities": {
+    "accounts": [
+      "standard.user1@lab.local"
+    ],
+    "ips": []
+  }
+}

@@ -1,0 +1,10 @@
+flowchart TD
+  A[Sentinel Incident Created] --> B{Identity incident?}
+  B -- No --> Z[Exit]
+  B -- Yes --> C[Extract Entities: Accounts/IPs]
+  C --> D[Run KQL Enrichment Queries]
+  D --> E[Build Investigation Bundle JSON]
+  E --> F[Add Comment to Incident (V3)]
+  E --> G[Create Ticket (GitHub dispatch -> Issue)]
+  F --> H[Done]
+  G --> H[Done]

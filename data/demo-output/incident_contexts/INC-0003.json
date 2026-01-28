@@ -1,0 +1,18 @@
+{
+  "incident_id": "INC-0003",
+  "title": "New country sign-in for user (baseline vs recent)",
+  "severity": "Medium",
+  "time_start": "2026-01-23T04:10:00Z",
+  "time_end": "2026-01-23T04:30:00Z",
+  "detections": [
+    "DET-03"
+  ],
+  "entities": {
+    "accounts": [
+      "sec.analyst@lab.local"
+    ],
+    "ips": [
+      "198.51.100.44"
+    ]
+  }
+}

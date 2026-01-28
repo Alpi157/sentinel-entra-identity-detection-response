@@ -1,0 +1,16 @@
+{
+  "incident_id": "INC-0004",
+  "title": "Privileged role assignment / role membership change",
+  "severity": "High",
+  "time_start": "2026-01-23T09:10:00Z",
+  "time_end": "2026-01-23T09:10:00Z",
+  "detections": [
+    "DET-04"
+  ],
+  "entities": {
+    "accounts": [
+      "it.admin@lab.local"
+    ],
+    "ips": []
+  }
+}

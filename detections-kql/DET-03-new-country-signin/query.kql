@@ -1,0 +1,43 @@
+// DET-03: New country sign-in for a user (baseline vs recent)
+// Data source: SigninLogs
+// Idea: Alert when a user signs in from a country not seen in the baseline window,
+// and it occurs at least N times in the recent window to reduce false positives.
+
+let baselineWindow = 14d;
+let recentWindow = 1d;
+let minNewCountryHits = 2;
+
+// Baseline: countries seen per user (excluding the recent window)
+let baseline =
+    SigninLogs
+    | where TimeGenerated between (ago(baselineWindow) .. ago(recentWindow))
+    | where toint(Status.errorCode) == 0
+    | extend Country = tostring(Location.countryOrRegion)
+    | summarize KnownCountries = make_set(Country, 128) by UserPrincipalName;
+
+// Recent successful sign-ins
+SigninLogs
+| where TimeGenerated >= ago(recentWindow)
+| where toint(Status.errorCode) == 0
+| extend Country = tostring(Location.countryOrRegion)
+| summarize
+    NewCountryHits = count(),
+    FirstSeen = min(TimeGenerated),
+    LastSeen = max(TimeGenerated),
+    IPs = make_set(IPAddress, 10),
+    Apps = make_set(AppDisplayName, 10)
+  by UserPrincipalName, Country
+| join kind=leftouter baseline on UserPrincipalName
+| extend KnownCountries = iif(isempty(KnownCountries), dynamic([]), KnownCountries)
+| where not(Country in (KnownCountries))
+| where NewCountryHits >= minNewCountryHits
+| project
+    UserPrincipalName,
+    Country,
+    NewCountryHits,
+    FirstSeen,
+    LastSeen,
+    IPs,
+    Apps,
+    KnownCountries
+| order by NewCountryHits desc

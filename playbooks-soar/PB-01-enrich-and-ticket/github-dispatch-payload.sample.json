@@ -1,0 +1,12 @@
+{
+  "event_type": "sentinel_ticket",
+  "client_payload": {
+    "incidentTitle": "DET-01 Multiple failures followed by success from same IP",
+    "severity": "High",
+    "time": "2026-01-23T13:55:30Z",
+    "accounts": ["standard.user1@lab.local"],
+    "ips": ["203.0.113.77"],
+    "detections": ["DET-01"],
+    "enrichment": "- 15 failures then success from same IP\n- Country: RU\n- No approved change ticket observed (demo)\n"
+  }
+}

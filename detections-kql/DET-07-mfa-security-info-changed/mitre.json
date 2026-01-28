@@ -1,0 +1,16 @@
+{
+  "techniques": [
+    {
+      "id": "T1098",
+      "name": "Account Manipulation",
+      "subtechniques": [],
+      "tactics": ["Persistence", "Privilege Escalation"]
+    },
+    {
+      "id": "T1556",
+      "name": "Modify Authentication Process",
+      "subtechniques": [],
+      "tactics": ["Defense Evasion", "Persistence"]
+    }
+  ]
+}

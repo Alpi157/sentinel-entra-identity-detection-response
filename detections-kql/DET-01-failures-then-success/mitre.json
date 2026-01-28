@@ -1,0 +1,10 @@
+{
+  "techniques": [
+    {
+      "id": "T1110",
+      "name": "Brute Force",
+      "subtechniques": [],
+      "tactics": ["Credential Access"]
+    }
+  ]
+}

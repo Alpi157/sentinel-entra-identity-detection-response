@@ -1,0 +1,49 @@
+// Detection: Multiple failures followed by a success from the same IP (possible password spray / credential stuffing)
+// Data source: SigninLogs
+// Tunables: lookback, failThreshold, successWindow
+
+let lookback = 1d;
+let failThreshold = 10;
+let successWindow = 30m;
+
+let failures =
+    SigninLogs
+    | where TimeGenerated >= ago(lookback)
+    | where toint(Status.errorCode) != 0
+    | project TimeGenerated, UserPrincipalName, IPAddress, AppDisplayName, Status;
+
+let successes =
+    SigninLogs
+    | where TimeGenerated >= ago(lookback)
+    | where toint(Status.errorCode) == 0
+    | project TimeGenerated, UserPrincipalName, IPAddress, AppDisplayName;
+
+failures
+| summarize
+    FailedCount = count(),
+    FailedUsers = dcount(UserPrincipalName),
+    FailFirstSeen = min(TimeGenerated),
+    FailLastSeen  = max(TimeGenerated),
+    AppsTargeted  = make_set(AppDisplayName, 10)
+  by IPAddress
+| where FailedCount >= failThreshold
+| join kind=inner (
+    successes
+    | summarize
+        SuccessUsers = make_set(UserPrincipalName, 10),
+        SuccessFirstSeen = min(TimeGenerated),
+        SuccessLastSeen  = max(TimeGenerated)
+      by IPAddress
+) on IPAddress
+| where SuccessFirstSeen between (FailFirstSeen .. FailLastSeen + successWindow)
+| project
+    IPAddress,
+    FailedCount,
+    FailedUsers,
+    FailFirstSeen,
+    FailLastSeen,
+    SuccessUsers,
+    SuccessFirstSeen,
+    SuccessLastSeen,
+    AppsTargeted
+| order by FailedCount desc

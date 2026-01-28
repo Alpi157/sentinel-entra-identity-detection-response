@@ -1,0 +1,18 @@
+{
+  "incident_id": "INC-0001",
+  "title": "Multiple failures followed by success from same IP",
+  "severity": "High",
+  "time_start": "2026-01-23T08:10:00Z",
+  "time_end": "2026-01-23T08:30:00Z",
+  "detections": [
+    "DET-01"
+  ],
+  "entities": {
+    "accounts": [
+      "standard.user1@lab.local"
+    ],
+    "ips": [
+      "203.0.113.77"
+    ]
+  }
+}

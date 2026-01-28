@@ -1,0 +1,6 @@
+SigninLogs
+| where TimeGenerated {TimeRange}
+| extend Country = tostring(Location.countryOrRegion)
+| summarize Signins=count() by Country
+| order by Signins desc
+| take 15

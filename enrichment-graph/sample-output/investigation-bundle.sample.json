@@ -1,0 +1,485 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-01-28T18:35:03Z",
+  "mode": "offline",
+  "incident": {
+    "id": "INC-0001",
+    "title": "DET-01 Multiple failures followed by success from same IP",
+    "severity": "High",
+    "time_start": "2026-01-23T13:30:00Z",
+    "time_end": "2026-01-23T14:10:00Z",
+    "detections": [
+      "DET-01"
+    ]
+  },
+  "entities": {
+    "accounts": [
+      "standard.user1@lab.local"
+    ],
+    "ips": [
+      "203.0.113.77"
+    ]
+  },
+  "evidence": {
+    "account_summaries": [
+      {
+        "user": "standard.user1@lab.local",
+        "total": 16,
+        "success": 1,
+        "failure": 15,
+        "legacy_auth_count": 0,
+        "countries": [
+          "RU"
+        ],
+        "ips": [
+          "203.0.113.77"
+        ],
+        "apps": [
+          "Azure Portal",
+          "Microsoft 365 Portal",
+          "Microsoft Teams",
+          "SharePoint Online"
+        ]
+      }
+    ],
+    "ip_summaries": [
+      {
+        "ip": "203.0.113.77",
+        "total": 16,
+        "failures": 15,
+        "successes": 1,
+        "targeted_users_count": 1,
+        "users": [
+          "standard.user1@lab.local"
+        ],
+        "countries": [
+          "RU"
+        ],
+        "apps": [
+          "Azure Portal",
+          "Microsoft 365 Portal",
+          "Microsoft Teams",
+          "SharePoint Online"
+        ]
+      }
+    ],
+    "recent_signins": {
+      "standard.user1@lab.local": [
+        {
+          "TimeGenerated": "2026-01-23T13:55:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "SharePoint Online",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-527"
+          },
+          "Status": {
+            "errorCode": 0,
+            "failureReason": null,
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "success",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:49:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "SharePoint Online",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-724"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": "MFA required"
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "multiFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:48:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Microsoft 365 Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-371"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:47:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Microsoft 365 Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-419"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:46:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Azure Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-856"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": "MFA required"
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:45:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "SharePoint Online",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-471"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:44:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "SharePoint Online",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-479"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "multiFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:43:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "SharePoint Online",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-790"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": "MFA required"
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:42:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "SharePoint Online",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-821"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:41:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Microsoft 365 Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-586"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:40:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Azure Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-571"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": "MFA required"
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "multiFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:39:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Microsoft 365 Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-497"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "multiFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:38:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Microsoft Teams",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-201"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "multiFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:37:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Azure Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-231"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": null
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:36:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "Microsoft 365 Portal",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-338"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": "MFA required"
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        },
+        {
+          "TimeGenerated": "2026-01-23T13:35:30Z",
+          "UserPrincipalName": "standard.user1@lab.local",
+          "UserId": "u-001",
+          "AppDisplayName": "SharePoint Online",
+          "IPAddress": "203.0.113.77",
+          "Location": {
+            "countryOrRegion": "RU",
+            "city": "Unknown"
+          },
+          "DeviceDetail": {
+            "operatingSystem": "Windows",
+            "browser": "Chrome",
+            "deviceId": "dev-187"
+          },
+          "Status": {
+            "errorCode": 50126,
+            "failureReason": "Invalid username or password",
+            "additionalDetails": "MFA required"
+          },
+          "ConditionalAccessStatus": "failure",
+          "AuthenticationRequirement": "singleFactorAuthentication",
+          "ClientAppUsed": "Browser",
+          "UserAgent": "Mozilla/5.0"
+        }
+      ]
+    },
+    "audit_events": []
+  },
+  "recommended_actions": [
+    "Review Identity Investigations workbook: User timeline + Audit timeline for primary account.",
+    "Validate whether any privileged changes (roles/consent/credentials/MFA) occurred near the incident time.",
+    "If suspicious and approved: execute PB-02 Manual Containment steps (disable user sign-in, revoke sessions, revoke consent, remove role assignments).",
+    "Document outcome and tuning notes in the case study."
+  ],
+  "links": {
+    "workbook": "/workbooks/identity-investigations/",
+    "detections": "/detections-kql/",
+    "runbook": "/docs/runbook.md",
+    "soar_pb01": "/playbooks-soar/PB-01-enrich-and-ticket/",
+    "soar_pb02": "/playbooks-soar/PB-02-manual-containment/"
+  }
+}

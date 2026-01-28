@@ -1,0 +1,7 @@
+let u = tostring('{UserUPN}');
+AuditLogs
+| where TimeGenerated {TimeRange}
+| where isempty(u) or tostring(InitiatedBy.user.userPrincipalName) == u
+| project TimeGenerated, OperationName, Result, InitiatedBy, TargetResources, CorrelationId
+| order by TimeGenerated desc
+| take 200

@@ -1,0 +1,16 @@
+{
+  "incident_id": "INC-0007",
+  "title": "MFA/security info changed",
+  "severity": "High",
+  "time_start": "2026-01-23T12:10:00Z",
+  "time_end": "2026-01-23T12:10:00Z",
+  "detections": [
+    "DET-07"
+  ],
+  "entities": {
+    "accounts": [
+      "standard.user1@lab.local"
+    ],
+    "ips": []
+  }
+}

@@ -1,0 +1,29 @@
+let lookback = 1d;
+let failThreshold = 10;
+let successWindow = 30m;
+
+let failures =
+    SigninLogs
+    | where TimeGenerated {TimeRange}
+    | where toint(Status.errorCode) != 0
+    | project TimeGenerated, UserPrincipalName, IPAddress, AppDisplayName;
+
+let successes =
+    SigninLogs
+    | where TimeGenerated {TimeRange}
+    | where toint(Status.errorCode) == 0
+    | project TimeGenerated, UserPrincipalName, IPAddress, AppDisplayName;
+
+failures
+| summarize FailedCount=count(), FailedUsers=dcount(UserPrincipalName),
+          FailFirst=min(TimeGenerated), FailLast=max(TimeGenerated)
+  by IPAddress
+| where FailedCount >= failThreshold
+| join kind=inner (
+    successes
+    | summarize SuccessUsers=make_set(UserPrincipalName, 10),
+              SuccessFirst=min(TimeGenerated)
+      by IPAddress
+) on IPAddress
+| where SuccessFirst between (FailFirst .. FailLast + successWindow)
+| order by FailedCount desc

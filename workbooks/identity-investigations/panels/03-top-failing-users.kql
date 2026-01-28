@@ -1,0 +1,6 @@
+SigninLogs
+| where TimeGenerated {TimeRange}
+| where toint(Status.errorCode) != 0
+| summarize Failures=count() by UserPrincipalName
+| order by Failures desc
+| take 25

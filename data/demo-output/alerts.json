@@ -1,0 +1,173 @@
+[
+  {
+    "detection_id": "DET-01",
+    "title": "Multiple failures followed by success from same IP",
+    "severity": "High",
+    "entities": {
+      "accounts": [
+        "standard.user1@lab.local"
+      ],
+      "ips": [
+        "203.0.113.77"
+      ],
+      "country": "RU"
+    },
+    "time_first": "2026-01-23T08:10:00Z",
+    "time_last": "2026-01-23T08:30:00Z",
+    "evidence": {
+      "first_failures": [
+        {
+          "time": "2026-01-23T08:10:00Z",
+          "user": "standard.user1@lab.local",
+          "app": "SharePoint Online"
+        },
+        {
+          "time": "2026-01-23T08:11:00Z",
+          "user": "standard.user1@lab.local",
+          "app": "Microsoft 365 Portal"
+        }
+      ],
+      "success": {
+        "time": "2026-01-23T08:30:00Z",
+        "user": "standard.user1@lab.local",
+        "app": "Azure Portal"
+      }
+    }
+  },
+  {
+    "detection_id": "DET-02",
+    "title": "Legacy Authentication sign-in detected",
+    "severity": "Medium",
+    "entities": {
+      "accounts": [
+        "standard.user2@lab.local"
+      ],
+      "ips": [
+        "192.0.2.87"
+      ]
+    },
+    "time_first": "2026-01-23T02:10:00Z",
+    "time_last": "2026-01-23T02:10:00Z",
+    "evidence": {
+      "sample_event": {
+        "time": "2026-01-23T02:10:00Z",
+        "user": "standard.user2@lab.local",
+        "app": "SharePoint Online",
+        "ip": "192.0.2.87",
+        "client_app_used": "Legacy Authentication"
+      }
+    }
+  },
+  {
+    "detection_id": "DET-03",
+    "title": "New country sign-in for user (baseline vs recent)",
+    "severity": "Medium",
+    "entities": {
+      "accounts": [
+        "sec.analyst@lab.local"
+      ],
+      "ips": [
+        "198.51.100.44"
+      ],
+      "country": "RU"
+    },
+    "time_first": "2026-01-23T04:10:00Z",
+    "time_last": "2026-01-23T04:30:00Z",
+    "evidence": {
+      "baseline_countries": [
+        "CA"
+      ],
+      "new_country": "RU",
+      "recent_hits": 2,
+      "sample": {
+        "ips": [
+          "198.51.100.44"
+        ],
+        "apps": [
+          "Microsoft 365 Portal",
+          "SharePoint Online"
+        ]
+      }
+    }
+  },
+  {
+    "detection_id": "DET-04",
+    "title": "Privileged role assignment / role membership change",
+    "severity": "High",
+    "entities": {
+      "accounts": [
+        "it.admin@lab.local"
+      ],
+      "ips": []
+    },
+    "time_first": "2026-01-23T09:10:00Z",
+    "time_last": "2026-01-23T09:10:00Z",
+    "evidence": {
+      "sample_event": {
+        "time": "2026-01-23T09:10:00Z",
+        "op": "Add member to role",
+        "correlationId": "corr-336964"
+      }
+    }
+  },
+  {
+    "detection_id": "DET-05",
+    "title": "Application/Service Principal credentials added/updated",
+    "severity": "High",
+    "entities": {
+      "accounts": [
+        "it.admin@lab.local"
+      ],
+      "ips": []
+    },
+    "time_first": "2026-01-23T10:10:00Z",
+    "time_last": "2026-01-23T10:10:00Z",
+    "evidence": {
+      "sample_event": {
+        "time": "2026-01-23T10:10:00Z",
+        "op": "Add service principal credentials",
+        "target": "Contoso-App"
+      }
+    }
+  },
+  {
+    "detection_id": "DET-06",
+    "title": "OAuth consent granted to application",
+    "severity": "Medium",
+    "entities": {
+      "accounts": [
+        "standard.user1@lab.local"
+      ],
+      "ips": []
+    },
+    "time_first": "2026-01-23T11:10:00Z",
+    "time_last": "2026-01-23T11:10:00Z",
+    "evidence": {
+      "sample_event": {
+        "time": "2026-01-23T11:10:00Z",
+        "op": "Consent to application",
+        "app": "Suspicious-OAuth-App"
+      }
+    }
+  },
+  {
+    "detection_id": "DET-07",
+    "title": "MFA/security info changed",
+    "severity": "High",
+    "entities": {
+      "accounts": [
+        "standard.user1@lab.local"
+      ],
+      "ips": []
+    },
+    "time_first": "2026-01-23T12:10:00Z",
+    "time_last": "2026-01-23T12:10:00Z",
+    "evidence": {
+      "sample_event": {
+        "time": "2026-01-23T12:10:00Z",
+        "op": "User updated security info",
+        "target": "standard.user1@lab.local"
+      }
+    }
+  }
+]

@@ -1,0 +1,48 @@
+// DET-07: MFA methods / security info changes
+// Data source: AuditLogs
+// Goal: detect changes to authentication methods, security info, or MFA registration.
+// Tunables: lookback, includeFailed
+
+let lookback = 14d;
+let includeFailed = false;
+
+AuditLogs
+| where TimeGenerated >= ago(lookback)
+| where (includeFailed == true) or (Result =~ "success")
+| where OperationName has_any (
+    "authentication", "Authentication",
+    "MFA", "mfa",
+    "security info", "Security info",
+    "registered", "registration",
+    "phone", "Phone",
+    "Authenticator", "authenticator",
+    "FIDO", "fido",
+    "passwordless", "Passwordless"
+)
+| extend InitiatorUPN = tostring(InitiatedBy.user.userPrincipalName)
+| extend InitiatorApp = tostring(InitiatedBy.app.displayName)
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetName = tostring(TargetResources.displayName)
+| extend ModifiedProps = tostring(TargetResources.modifiedProperties)
+| extend LooksLikeAuthMethodChange = ModifiedProps has_any (
+    "AuthenticationMethod", "authenticationMethod",
+    "phone", "Phone",
+    "email", "Email",
+    "fido", "FIDO",
+    "Microsoft Authenticator", "Authenticator",
+    "passwordless", "Passwordless",
+    "security info", "SecurityInfo"
+)
+| where LooksLikeAuthMethodChange == true or OperationName has_any ("security", "Authentication", "MFA", "registration")
+| project
+    TimeGenerated,
+    OperationName,
+    Result,
+    InitiatorUPN,
+    InitiatorApp,
+    TargetType,
+    TargetName,
+    CorrelationId,
+    TargetResources
+| order by TimeGenerated desc

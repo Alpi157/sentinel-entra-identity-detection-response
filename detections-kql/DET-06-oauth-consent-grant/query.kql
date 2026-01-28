@@ -1,0 +1,31 @@
+// DET-06: OAuth consent granted to an application (user/admin consent)
+// Data source: AuditLogs
+// Goal: detect consent events and surface key context.
+// Tunables: lookback, includeFailed
+
+let lookback = 30d;
+let includeFailed = false;
+
+AuditLogs
+| where TimeGenerated >= ago(lookback)
+| where (includeFailed == true) or (Result =~ "success")
+| where OperationName has_any ("Consent", "consent", "OAuth", "oAuth", "admin consent", "Grant", "granted")
+| extend InitiatorUPN = tostring(InitiatedBy.user.userPrincipalName)
+| extend InitiatorApp = tostring(InitiatedBy.app.displayName)
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetName = tostring(TargetResources.displayName)
+| extend ModifiedProps = tostring(TargetResources.modifiedProperties)
+| extend LooksLikeConsent = ModifiedProps has_any ("scope", "permission", "consent", "grant", "OAuth")
+| where LooksLikeConsent == true or TargetType in~ ("Application", "ServicePrincipal")
+| project
+    TimeGenerated,
+    OperationName,
+    Result,
+    InitiatorUPN,
+    InitiatorApp,
+    TargetType,
+    TargetName,
+    CorrelationId,
+    TargetResources
+| order by TimeGenerated desc

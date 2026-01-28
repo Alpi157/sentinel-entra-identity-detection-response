@@ -1,0 +1,5 @@
+SigninLogs
+| where TimeGenerated {TimeRange}
+| where ClientAppUsed has "Legacy Authentication"
+| project TimeGenerated, UserPrincipalName, AppDisplayName, IPAddress, ClientAppUsed, UserAgent, Status
+| order by TimeGenerated desc

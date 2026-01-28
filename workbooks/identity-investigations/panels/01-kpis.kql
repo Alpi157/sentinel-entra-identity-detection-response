@@ -1,0 +1,28 @@
+// KPI Tiles (Signin + Audit high-signal counts)
+let signins =
+    SigninLogs
+    | where TimeGenerated {TimeRange};
+
+let audits =
+    AuditLogs
+    | where TimeGenerated {TimeRange};
+
+let totalSignins = toscalar(signins | count);
+let failedSignins = toscalar(signins | where toint(Status.errorCode) != 0 | count);
+let legacyAuth = toscalar(signins | where ClientAppUsed has "Legacy Authentication" | count);
+
+let privRoleChanges = toscalar(audits | where OperationName has "role" and Result =~ "success" | count);
+let appCredChanges  = toscalar(audits | where OperationName has_any ("credentials","password","secret","certificate","key") and Result =~ "success" | count);
+let consentGrants   = toscalar(audits | where OperationName has "Consent" and Result =~ "success" | count);
+let mfaChanges       = toscalar(audits | where OperationName has_any ("security info","authentication method","MFA") and Result =~ "success" | count);
+
+datatable(Metric:string, Value:long)
+[
+  "Total sign-ins", totalSignins,
+  "Failed sign-ins", failedSignins,
+  "Legacy auth sign-ins", legacyAuth,
+  "Privileged role events", privRoleChanges,
+  "App credential changes", appCredChanges,
+  "OAuth consent events", consentGrants,
+  "MFA/security info changes", mfaChanges
+]

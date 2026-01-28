@@ -1,0 +1,17 @@
+let privilegedRoleKeywords = dynamic([
+  "Global Administrator",
+  "Privileged Role Administrator",
+  "Security Administrator",
+  "Conditional Access Administrator",
+  "User Administrator"
+]);
+
+AuditLogs
+| where TimeGenerated {TimeRange}
+| where Result =~ "success"
+| where OperationName has "role"
+| mv-expand TargetResources
+| extend TargetName = tostring(TargetResources.displayName)
+| where TargetName has_any (privilegedRoleKeywords)
+| project TimeGenerated, OperationName, InitiatedBy, TargetName, CorrelationId, TargetResources
+| order by TimeGenerated desc

@@ -1,0 +1,63 @@
+// DET-04: Privileged role assignment / role membership changes
+// Data source: AuditLogs
+// Goal: Detect additions to high-privilege roles (e.g., Global Admin) or role assignment operations.
+//
+// Tunables: lookback, privilegedRoleKeywords (customize), includeFailed
+
+let lookback = 7d;
+let includeFailed = false;
+
+// Add/remove keywords are not perfectly consistent across tenants, so we match using "has" patterns.
+let roleOps = dynamic([
+  "Add member to role",
+  "Add eligible member to role",
+  "Add member to directory role",
+  "Add eligible member to directory role",
+  "Add member to role in PIM",
+  "Add eligible member to role in PIM",
+  "Activate eligible role",
+  "Add role assignment",
+  "Update role assignment"
+]);
+
+// Keywords to treat as privileged roles (customize to your environment)
+let privilegedRoleKeywords = dynamic([
+  "Global Administrator",
+  "Privileged Role Administrator",
+  "Security Administrator",
+  "Conditional Access Administrator",
+  "User Administrator",
+  "Exchange Administrator",
+  "SharePoint Administrator",
+  "Cloud Application Administrator",
+  "Application Administrator",
+  "Authentication Administrator",
+  "Helpdesk Administrator"
+]);
+
+AuditLogs
+| where TimeGenerated >= ago(lookback)
+| where OperationName in~ (roleOps) or OperationName has "role"
+| where (includeFailed == true) or (Result =~ "success")
+| extend InitiatorUPN = tostring(InitiatedBy.user.userPrincipalName)
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetDisplayName = tostring(TargetResources.displayName)
+| extend ModifiedProps = TargetResources.modifiedProperties
+| extend RoleName =
+    coalesce(
+      tostring(parse_json(tostring(ModifiedProps))[0].newValue),
+      TargetDisplayName
+    )
+| where RoleName has_any (privilegedRoleKeywords) or TargetDisplayName has_any (privilegedRoleKeywords)
+| project
+    TimeGenerated,
+    OperationName,
+    Result,
+    InitiatorUPN,
+    TargetType,
+    TargetDisplayName,
+    RoleName,
+    CorrelationId,
+    TargetResources
+| order by TimeGenerated desc

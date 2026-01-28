@@ -1,0 +1,7 @@
+SigninLogs
+| where TimeGenerated {TimeRange}
+| summarize
+    Success=countif(toint(Status.errorCode) == 0),
+    Failure=countif(toint(Status.errorCode) != 0)
+  by bin(TimeGenerated, 1h)
+| order by TimeGenerated asc

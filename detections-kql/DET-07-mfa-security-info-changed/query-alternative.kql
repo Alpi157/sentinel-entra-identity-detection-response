@@ -1,0 +1,27 @@
+// DET-07 (Alternative): Common security info / auth method operation names
+// Data source: AuditLogs
+
+let lookback = 14d;
+
+let mfaOps = dynamic([
+  "User registered security info",
+  "User updated security info",
+  "User deleted security info",
+  "User changed default authentication method",
+  "Register authentication method",
+  "Update authentication method",
+  "Delete authentication method",
+  "Add authentication method",
+  "Remove authentication method"
+]);
+
+AuditLogs
+| where TimeGenerated >= ago(lookback)
+| where Result =~ "success"
+| where OperationName in~ (mfaOps) or OperationName has_any ("security info", "authentication method", "MFA")
+| extend InitiatorUPN = tostring(InitiatedBy.user.userPrincipalName)
+| mv-expand TargetResources
+| extend TargetType = tostring(TargetResources.type)
+| extend TargetName = tostring(TargetResources.displayName)
+| project TimeGenerated, OperationName, Result, InitiatorUPN, TargetType, TargetName, CorrelationId, TargetResources
+| order by TimeGenerated desc

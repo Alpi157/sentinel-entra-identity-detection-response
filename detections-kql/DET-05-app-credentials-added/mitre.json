@@ -1,0 +1,16 @@
+{
+  "techniques": [
+    {
+      "id": "T1098",
+      "name": "Account Manipulation",
+      "subtechniques": [],
+      "tactics": ["Persistence", "Privilege Escalation"]
+    },
+    {
+      "id": "T1550",
+      "name": "Use Alternate Authentication Material",
+      "subtechniques": [],
+      "tactics": ["Defense Evasion", "Lateral Movement"]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+// DET-02: Legacy Authentication usage (often blocked in mature tenants)
+// Data source: SigninLogs
+// Tunables: lookback, includeSuccessOnly
+
+let lookback = 1d;
+let includeSuccessOnly = true;
+
+SigninLogs
+| where TimeGenerated >= ago(lookback)
+| where ClientAppUsed has_any ("Legacy Authentication", "IMAP", "POP", "SMTP", "MAPI", "Exchange ActiveSync", "Other clients")
+| where (includeSuccessOnly == false) or (toint(Status.errorCode) == 0)
+| project
+    TimeGenerated,
+    UserPrincipalName,
+    AppDisplayName,
+    IPAddress,
+    ClientAppUsed,
+    UserAgent,
+    ConditionalAccessStatus,
+    Status
+| order by TimeGenerated desc

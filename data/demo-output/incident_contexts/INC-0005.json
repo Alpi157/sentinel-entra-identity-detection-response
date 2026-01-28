@@ -1,0 +1,16 @@
+{
+  "incident_id": "INC-0005",
+  "title": "Application/Service Principal credentials added/updated",
+  "severity": "High",
+  "time_start": "2026-01-23T10:10:00Z",
+  "time_end": "2026-01-23T10:10:00Z",
+  "detections": [
+    "DET-05"
+  ],
+  "entities": {
+    "accounts": [
+      "it.admin@lab.local"
+    ],
+    "ips": []
+  }
+}

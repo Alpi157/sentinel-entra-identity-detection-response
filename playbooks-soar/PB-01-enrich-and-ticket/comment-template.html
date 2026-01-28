@@ -1,0 +1,24 @@
+<h2>PB-01 Enrichment Summary</h2>
+
+<p><b>Incident:</b> {{incidentTitle}}<br/>
+<b>Severity:</b> {{severity}}<br/>
+<b>Time:</b> {{timeGenerated}}</p>
+
+<p><b>Entities</b><br/>
+Accounts: {{accounts}}<br/>
+IPs: {{ips}}</p>
+
+<p><b>Key Enrichment Findings</b></p>
+<ul>
+  <li>Recent sign-ins: {{signinSummary}}</li>
+  <li>IP activity: {{ipSummary}}</li>
+  <li>Recent identity changes (AuditLogs): {{auditSummary}}</li>
+</ul>
+
+<p><b>Recommended analyst actions (human decision):</b></p>
+<ul>
+  <li>Review workbook pivots: User timeline + Audit timeline</li>
+  <li>If suspicious: run PB-02 (Manual Containment) after approval</li>
+</ul>
+
+<p><b>Ticket:</b> {{ticketLink}}</p>

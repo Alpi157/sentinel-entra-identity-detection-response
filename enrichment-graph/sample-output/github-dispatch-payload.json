@@ -1,0 +1,18 @@
+{
+  "event_type": "sentinel_ticket",
+  "client_payload": {
+    "incidentTitle": "DET-01 Multiple failures followed by success from same IP",
+    "severity": "High",
+    "time": "2026-01-23T14:10:00Z",
+    "accounts": [
+      "standard.user1@lab.local"
+    ],
+    "ips": [
+      "203.0.113.77"
+    ],
+    "detections": [
+      "DET-01"
+    ],
+    "enrichment": "### Account Summary\n- **standard.user1@lab.local**: total=16 (success=1, failure=15), legacy_auth=0, countries=RU\n\n### IP Summary\n- **203.0.113.77**: total=16 (failures=15, successes=1), targeted_users=1, countries=RU\n\n### Notable Audit Events\n- None in time window"
+  }
+}

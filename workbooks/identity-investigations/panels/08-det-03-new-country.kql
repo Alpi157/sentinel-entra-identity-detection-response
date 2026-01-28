@@ -1,0 +1,28 @@
+let baselineWindow = 14d;
+let recentWindow = 1d;
+let minNewCountryHits = 2;
+
+// Use workbook TimeRange as the "recentWindow" scope,
+// and build baseline as 14d before the start of TimeRange.
+let baselineStart = datetime_add('day', -14, {TimeRange:start});
+let baselineEnd   = {TimeRange:start};
+
+let baseline =
+    SigninLogs
+    | where TimeGenerated between (baselineStart .. baselineEnd)
+    | where toint(Status.errorCode) == 0
+    | extend Country = tostring(Location.countryOrRegion)
+    | summarize KnownCountries=make_set(Country, 128) by UserPrincipalName;
+
+SigninLogs
+| where TimeGenerated {TimeRange}
+| where toint(Status.errorCode) == 0
+| extend Country = tostring(Location.countryOrRegion)
+| summarize NewCountryHits=count(), FirstSeen=min(TimeGenerated), LastSeen=max(TimeGenerated),
+          IPs=make_set(IPAddress, 10), Apps=make_set(AppDisplayName, 10)
+  by UserPrincipalName, Country
+| join kind=leftouter baseline on UserPrincipalName
+| extend KnownCountries=iif(isempty(KnownCountries), dynamic([]), KnownCountries)
+| where not(Country in (KnownCountries))
+| where NewCountryHits >= minNewCountryHits
+| order by NewCountryHits desc

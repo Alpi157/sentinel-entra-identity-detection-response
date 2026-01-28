@@ -1,7 +1,7 @@
 # Identity Threat Detection & Response Lab (Sentinel + Entra ID)  
 ## Optional AI Triage Summary (Human-in-the-loop)
 
-A production-minded, portfolio-grade identity detection and response lab that mirrors how a SOC teams works with Microsoft Entra ID telemetry and Microsoft Sentinel patterns. This repo is designed to be valuable even without Azure access by providing an offline-first “detection - investigation - SOAR ticket - triage summary” pipeline you can run locally.
+A production-minded identity detection and response lab that mirrors how a SOC teams works with Microsoft Entra ID telemetry and Microsoft Sentinel patterns. This repo is designed to be valuable even without Azure access by providing an offline-first “detection - investigation - SOAR ticket - triage summary” pipeline you can run locally.
 
 ---
 

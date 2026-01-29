@@ -1,7 +1,7 @@
 flowchart TD
-  A[Analyst runs playbook on Incident] --> B[Extract Accounts/IPs]
-  B --> C[Post Containment Checklist Comment]
+  A[Analyst runs playbook on incident] --> B[Extract accounts and IPs]
+  B --> C[Post containment checklist comment]
   C --> D{Approval granted?}
-  D -- No --> E[Stop: No containment]
-  D -- Yes --> F[Optional: Execute containment action(s)]
+  D -- No --> E[Stop - no containment]
+  D -- Yes --> F[Optional: execute containment actions]
   F --> G[Post results to incident comment]
